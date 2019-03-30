@@ -14,9 +14,7 @@ RegisterCommand('baitcar', function(source, args)
     end
     -- check if the vehicle actually exists
     if not IsModelInCdimage(vehicleName) or not IsModelAVehicle(vehicleName) then
-        TriggerEvent('chat:addMessage', {
-            args = { 'It might have been a good thing that you tried to spawn a ' .. vehicleName .. '. Who even wants their spawning to actually ^*succeed?' }
-        })
+        print('No such vehicle ' .. vehicleName)
         return
     end
 
@@ -49,7 +47,7 @@ end, false)
 
 RegisterCommand('impound', function(source, args)
     local coordFrom = GetEntityCoords(PlayerPedId(), true)
-    local coordTo = GetOffsetFromEntityInWorldCoords(playerPed, 0, 30.0, 5)
+    local coordTo = GetOffsetFromEntityInWorldCoords(playerPed, 0, 30.0, -5)
     local RayHandle = CastRayPointToPoint(coordFrom.x, coordFrom.y, coordFrom.z, coordTo.x, coordTo.y, coordTo.z, 2, playerPed, 0)
     local _, _, _, _, targetVehicle = GetRaycastResult(RayHandle)
 
@@ -63,10 +61,10 @@ RegisterCommand('impound', function(source, args)
     end
 end, false)
 
--- RegisterCommand("imp", function(source, args)
---     SetEntityAsMissionEntity(baitcar) -- used to force vehicle to delete immediately, otherwise it looks like game will decide when to delete
---     DeleteVehicle(baitcar)
--- end)
+RegisterCommand("fix", function(source, args)
+    SetEntityAsMissionEntity(baitcar) -- used to force vehicle to delete immediately, otherwise it looks like game will decide when to delete
+    DeleteVehicle(baitcar)
+end)
 
 function SetBait(vehicle)
     Citizen.CreateThread(function()
